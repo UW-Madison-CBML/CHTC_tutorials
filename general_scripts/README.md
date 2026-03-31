@@ -93,6 +93,7 @@ The following lines of code are what tell the scheduler what compute resources a
 #Requirements = (Target.HasCHTCStaging == true)
 Requirements = (Machine == "machine_name2000.chtc.wisc.edu") #Ask for Jay's gpu name
 request_memory = 35 GB
+#retry_request_memory = RequestMemory*2 #Retry with twice the memory if first job runs out of memory
 request_disk = 70 GB
 request_cpus = 1
 ```
@@ -121,26 +122,37 @@ There's a couple different situations where you might want to do a multi-job sub
 ### Scenario 1
 For the first scenario see `scenario_1/` for sample scripts. You will create a inputs.txt file where the text file contains the set of inputs needed for a pytohn script. 
 
-Two changes needed to happen in your submit.sub file
+Two changes needed to happen in your submit.sub file. In the following code, your python.py script requires 3 arguments. These 3 arguements are specified in a third file, inputs.txt
+```
+# Added to the submit script
+arguments = $(arg1) $(arg2) $(arg3)
+...
+queue arg1, arg2, arg3 from inputs.txt
 ```
 
+A sample inputs.txt file may look like this:
 ```
-
-
+path/arg1_1.txt, arg2_1, arg3_1
+path/arg1_2.txt, arg2_2, arg3_2
+path/arg1_3.txt, arg2_3, arg3_3
+```
 
 ### Scenario 2
+For the second scenario see `scenario_2/` for sample scripts. This scenario is meant for if you have thousands of items (ie sequences) in one file that need to all be processed the same way (same script), and are each independent. Instead of processing them all sequentially, you can chunk these items into multiple files and process each chunk in parallel as it's own job.
 
+First, chunk your one input file into multiple files which will result in files like this
+```
+chunk1.txt
+chunk2.txt
+chunk3.txt
+chunk4.txt
+chunk5.txt
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Now in your submit script, you will make similar changes as in scenario 1 where inputs.txt has a list of your chunk files
+```
+# Added to the submit script
+arguments = $(chunk)
+...
+queue chunk from inputs.txt
+```
