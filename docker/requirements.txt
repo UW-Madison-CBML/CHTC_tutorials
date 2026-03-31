@@ -1,0 +1,15 @@
+python==3.12.12
+datasets
+transformers
+evaluate
+scikit-learn
+scipy
+pandas
+numpy
+tifffile
+persim
+ripser
+matplotlib
+seaborn
+librosa
+soundfile

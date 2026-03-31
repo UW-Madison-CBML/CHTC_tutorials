@@ -1,0 +1,23 @@
+name: transformers
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.12
+  - datasets
+  - transformers
+  - evaluate
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - pandas
+  - numpy
+  - scipy
+  - pip
+  - pip: 
+    - collections
+    - itertools
+    - tifffile
+    - persim
+    - ripser
+    - librosa
+    - soundfile
