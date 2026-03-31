@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-# No interactive prompts
+# Prevents no interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install app dependencies
