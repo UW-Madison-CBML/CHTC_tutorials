@@ -2,6 +2,7 @@ Universe   = container
 container_image = docker://usernm/container_name #docker://lsvaren/transformers
 Executable = run_script.sh
 transfer_input_files = model_og.py,model.py,api_keys.txt,osdf:///chtc/staging/net_id/files.tar.gz
+arguments = $(arg1) $(arg2) $(arg3)
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
@@ -24,4 +25,4 @@ output = $(Cluster).out
 error = $(Cluster).err
 log = $(Cluster).log
 
-queue 
+queue arg1, arg2, arg3 from inputs.txt
