@@ -119,7 +119,7 @@ There's a couple different situations where you might want to do a multi-job sub
 1. I want to run the same script with multiple different datasets (ie. train a model using 5 different datasets)
 2. I have lots of inputs that need the same short analysis (ie. 1000 sequences all analyzed the same)
 
-### Scenario 1
+## Scenario 1
 For the first scenario see `scenario_1/` for sample scripts. You will create a inputs.txt file where the text file contains the set of inputs needed for a pytohn script. 
 
 Two changes needed to happen in your submit.sub file. In the following code, your python.py script requires 3 arguments. These 3 arguements are specified in a third file, inputs.txt
@@ -137,7 +137,7 @@ path/arg1_2.txt, arg2_2, arg3_2
 path/arg1_3.txt, arg2_3, arg3_3
 ```
 
-### Scenario 2
+## Scenario 2
 For the second scenario see `scenario_2/` for sample scripts. This scenario is meant for if you have thousands of items (ie sequences) in one file that need to all be processed the same way (same script), and are each independent. Instead of processing them all sequentially, you can chunk these items into multiple files and process each chunk in parallel as it's own job.
 
 First, chunk your one input file into multiple files which will result in files like this
@@ -156,3 +156,14 @@ arguments = $(chunk)
 ...
 queue chunk from inputs.txt
 ```
+
+
+### Optional
+If you have a lot of input files or the input files are very large files, you can also change `transfer_input_files` to specifically transfer the files in inputs.txt
+```
+transfer_input_files = $(arg1),$(arg3) # Scenario 1
+transfer_input_files = $(chunk)        # Scenario 2
+```
+
+
+
