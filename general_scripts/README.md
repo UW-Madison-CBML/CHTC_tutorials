@@ -105,11 +105,42 @@ error = $(Cluster).err
 log = $(Cluster).log
 ```
 
-Finally, use `queue` at the end of the script. The default `queue` specifies to run the executable once. If you want to run it 10 times, you would change 
-
-
+Finally, use `queue` at the end of the script. The default `queue` specifies to run the executable once. If you want to run it 10 times, you would change it to `queue 10`
 
 # python.py
 This one's pretty explanatory. This will be the python script that runs your model, does analysis, etc
 
 **Make sure all the paths and such are relative paths corresponding to the compute node**
+
+
+# For multi-job submissions
+There's a couple different situations where you might want to do a multi-job submission:
+1. I want to run the same script with multiple different datasets (ie. train a model using 5 different datasets)
+2. I have lots of inputs that need the same short analysis (ie. 1000 sequences all analyzed the same)
+
+### Scenario 1
+For the first scenario see `scenario_1/` for sample scripts. You will create a inputs.txt file where the text file contains the set of inputs needed for a pytohn script. 
+
+Two changes needed to happen in your submit.sub file
+```
+
+```
+
+
+
+### Scenario 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
