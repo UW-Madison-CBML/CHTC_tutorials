@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 #change this as needed, look at docker repos
+FROM ubuntu:22.04
 
 # No interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive

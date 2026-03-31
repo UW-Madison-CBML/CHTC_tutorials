@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 #change this as needed, look at docker repos
+FROM ubuntu:22.04
 
 # No interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
@@ -24,7 +24,7 @@ ENV PATH=$CONDA_DIR/bin:$PATH
 
 
 # Copy environment.yml into your container
-COPY my_env_file.yml /tmp/environment.yml
+COPY environment.yml /tmp/environment.yml
 
 RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
     conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
@@ -33,8 +33,8 @@ RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkg
 RUN conda env create -f /tmp/environment.yml
 
 # Autoload environment, change the environment name to what your environment is named
-ENV CONDA_DEFAULT_ENV=my_env_name
-ENV PATH=$CONDA_DIR/envs/my_env_name/bin:$PATH
+ENV CONDA_DEFAULT_ENV=environment
+ENV PATH=$CONDA_DIR/envs/environment/bin:$PATH
 
 # Set workspace
 WORKDIR /workspace

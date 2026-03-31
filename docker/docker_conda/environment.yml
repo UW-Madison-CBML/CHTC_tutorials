@@ -14,8 +14,6 @@ dependencies:
   - scipy
   - pip
   - pip: 
-    - collections
-    - itertools
     - tifffile
     - persim
     - ripser
