@@ -11,10 +11,12 @@ Each folder in this repo contains it's own markdown file describing how to use e
 
 # Basic CHTC commands
 Here are some basic CHTC commands
-`get_quotas` | See your directory quotas after you have logged in
-`condor_submit` submit.sub | Submit a job to the queue
-`condor_q` | Check on your jobs (idle, running, hold)
-`condor_q -hold` | Get explanation to why a job is on hold
-`condor_rm <job_id>` | Remove job from queue
-`condor_release <job_id>` | Release a job on hold to enter the queue again
-`condor_ssh_to_job <job_id>` | Connect to the job and enter it
+|Command|Function|
+|---|---|
+|`get_quotas` | See your directory quotas after you have logged in|
+|`condor_submit` submit.sub | Submit a job to the queue|
+|`condor_q` | Check on your jobs (idle, running, hold)|
+|`condor_q -hold` | Get explanation to why a job is on hold|
+|`condor_rm <job_id>` | Remove job from queue|
+|`condor_release <job_id>` | Release a job on hold to enter the queue again|
+|`condor_ssh_to_job <job_id>` | Connect to the job and enter it|
