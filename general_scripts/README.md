@@ -12,6 +12,8 @@ Additional HTCondor commands and submit script entries can be found [here](https
 # run_script.sh
 This bash script is called your executable and will contain any cmd commands needed to run your script and save your output files. This file **always** starts with `#/bin/bash` at the top. Use the provided script as a template.
 
+You will need to install any additional packages, load any API keys, run your script, and tar gzip your outputs directory. The outputs directory is needed to tell HTCondor to transfer your output back to the login node from the compute node (compute node is where all the compute stuff happens, login node is the node you login to).
+
 At the start of your script, pip install any additional packages that are not in your docker container. If everything is in your container already, there's no need for this.
 ```
 pip install torch==2.10.0
@@ -35,11 +37,79 @@ echo "Running"
 echo "Done"
 ```
 
+Run your python script (or any other scripts)
+```
+python python.py
+```
 
+Now that you have your output files, you need to tar gzip them in a `folder.tar.gz`
+```
+# Make new directory
+mkidr outputs
 
+# Move the output files into outputs dir (change file names as needed)
+mv *txt *json mymodel.pth outputs
+
+# Tar gzip the directory, HTcondor will then know to transer this back
+tar -zcvf outputs.tar.gz outputs
+```
+
+Now that you have your executable written, you can move on to your submit script (`submit.sub`)
 
 # submit.sub
+This submit script is used to tell HTCondor exactly what it needs to run your job (scripts, container, resources, etc). **Aside from =, there should not be any spaces**
+
+Starting from the top of the file, specify which container you want to use
+```
+Universe   = container
+container_image = docker://usernm/container_name #docker://lsvaren/transformers
+```
+
+Specify what your executable is
+```
+Executable = run_script.sh
+```
+
+Specify which files you need. These files will be copied from your login node to the compute node that your job runs on. 
+```
+transfer_input_files = model_og.py,model.py,api_keys.txt,osdf:///chtc/staging/net_id/files.tar.gz
+```
+
+These lines of code are needed to let the scheduler (HTCondor) to transfer input files at the start of the job and to transfer output files after the job ends
+```
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+```
+
+The following lines of code are what tell the scheduler what compute resources are needed. Uncomment as needed
+```
+# Uncomment these if you need gpus
+#request_gpus = 1
+#+WantGPULab = true
+#+WantFlock = true
+#+GPUJobLength = "long"
+#gpus_minimum_memory = 35 GB
+
+#Requirements = (Target.HasCHTCStaging == true)
+Requirements = (Machine == "machine_name2000.chtc.wisc.edu") #Ask for Jay's gpu name
+request_memory = 35 GB
+request_disk = 70 GB
+request_cpus = 1
+```
+
+Next, specify the batch name and your output files. These can be anything but will be how you identify the job when checking on it and how to find the corresponding output files (err, out, log).
+```
+batch_name = job_name
+output = $(Cluster).out
+error = $(Cluster).err
+log = $(Cluster).log
+```
+
+Finally, use `queue` at the end of the script. The default `queue` specifies to run the executable once. If you want to run it 10 times, you would change 
+
 
 
 # python.py
 This one's pretty explanatory. This will be the python script that runs your model, does analysis, etc
+
+**Make sure all the paths and such are relative paths corresponding to the compute node**
