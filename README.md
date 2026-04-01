@@ -20,3 +20,33 @@ Here are some basic CHTC commands
 |`condor_rm <job_id>` | Remove job from queue|
 |`condor_release <job_id>` | Release a job on hold to enter the queue again|
 |`condor_ssh_to_job <job_id>` | Connect to the job and enter it|
+
+# Helpful commandline
+Transfer files or directory from CHTC to local
+```
+# From your 
+scp net_id@ap200#.chtc.wisc.edu:/path/to/file
+```
+
+|Command|Function|
+|---|---|
+|`ls`|list files in current directory|
+|`ll`|list files with additional information (time, size, etc|
+|`cd /path/to/directory`|navigate to new directory|
+|`mv file.txt /path/to/move/to`|move file.txt to /path/to/move/to|
+|`mkdir new_dir`|create new directory in current directory|
+|`rm file.txt`|remove file.txt|
+|`rmdir directory`|remove directory (has to be empty)|
+|`du -sh directory`|get size of directory|
+
+
+# Helpful VIM
+VIM is a common text editor used to edit files within command line. [Here](https://vim-adventures.com/) is a fun game to practice VIM commands
+|Command|Function|
+|---|---|
+|`vi file`||
+
+
+
+
+
