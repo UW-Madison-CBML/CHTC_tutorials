@@ -4,12 +4,13 @@ This will be an extensive tutorial to walk you through creating scripts to train
 For this tutorial you will need:
 1. A [CHTC account](https://chtc.cs.wisc.edu/uw-research-computing/form)
 2. The `train_model_tutorial_1.py` script
-3. VIM editor on your local device
-4. Basic understanding of command line
-5. You **DO NOT** need to make a docker environment as we are using a premade one
+3. `tutorial_1_inputs.tar.gz`
+4. VIM editor on your local device
+5. Basic understanding of command line
+6. You **DO NOT** need to make a docker environment as we are using a premade one
 
 The overall steps for this tutorial
-1. Download `train_model_tutorial_1.py`, and `tutorial_1_inputs`
+1. Download `train_model_tutorial_1.py`, and `tutorial_1_inputs.tar.gz`
 2. Create `run_script.sh` and `submit_job.sub`
 3. Move all files from your local device to CHTC
 4. Submit job
@@ -24,8 +25,8 @@ The overall steps for this tutorial
 3. Move into the directory: `cd tutorial_1`
 
 4. Download `train_model_tutorial_1.py` from this folder and move it to your `tutorial_1` directory
-5. Now also download `tutorial_1_inputs`. These are the files we will be using as input to train our model
-6. Move `tutorial_1_inputs` to `tutorial_1` as well
+5. Now also download `tutorial_1_inputs.tar.gz`. These are the files we will be using as input to train our model
+6. Move `tutorial_1_inputs.tar.gz` to `tutorial_1` as well
 
 This python file contains the code required for training our model and will be run using `run_script.sh`. We will make `run_script.sh` next...
 
@@ -119,7 +120,7 @@ Executable = run_script.sh
 
 5. Now we need to tell HTCondor which files we want to transfer to the job. Pay attention to **no spaces** between the commas
 ```
-transfer_input_files = train_model_tutorial_1.py,tutorial_1_inputs
+transfer_input_files = train_model_tutorial_1.py,tutorial_1_inputs.tar.gz
 ```
 6. We want to specify to transfer input files to the job at the start of our job and transfer our output file back to your directory at the end of the job
 ```
