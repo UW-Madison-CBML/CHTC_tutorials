@@ -6,8 +6,8 @@ Each folder in this repo contains it's own markdown file describing how to use e
 ### Descriptions
 1. **docker**: How to create and push your own docker container
 2. **general_scripts**: General use scripts covering both single job and multi-job submissions
-3. **tutorial_1**: Simple tutorial walking through a simple job submission
-4. **tutorial_2**: A more complex tutorial walking through a multi-job submission
+3. **tutorial_1**: Simple tutorial walking through a simple job submission `**NOT DONE**`
+4. **tutorial_2**: A more complex tutorial walking through a multi-job submission `**NOT DONE**`
 
 # Basic CHTC commands
 Here are some basic CHTC commands
