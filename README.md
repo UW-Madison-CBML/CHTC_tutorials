@@ -22,18 +22,33 @@ Here are some basic CHTC commands
 |`condor_ssh_to_job <job_id>` | Connect to the job and enter it|
 
 # Helpful commandline
-Transfer files or directory from CHTC to local
+Transfer files or directory from **CHTC to local**
 ```
-# From your 
-scp net_id@ap200#.chtc.wisc.edu:/path/to/file
+# File
+scp net_id@ap200#.chtc.wisc.edu:/path/to/file.txt . #current directory
+
+# Directory
+scp -r net_id@ap200#.chtc.wisc.edu:/path/to/dir_chtc .
 ```
+
+Transfer files or directory from **local to CHTC**
+```
+# File
+scp file.txt net_id@ap200#.chtc.wisc.edu:/path/to/dir_chtc
+
+# Directory
+scp -r dir_local net_id@ap200#.chtc.wisc.edu:/path/to/dir_chtc
+```
+
 
 |Command|Function|
 |---|---|
 |`ls`|list files in current directory|
-|`ll`|list files with additional information (time, size, etc|
+|`ll`|list files with additional information (time, size, etc)|
 |`cd /path/to/directory`|navigate to new directory|
 |`mv file.txt /path/to/move/to`|move file.txt to /path/to/move/to|
+|`mv file.txt file_new.txt`|rename file.txt to file_new.txt (also applicable to directories)|
+|`cd file.txt file_copy.txt`|copy file.txt to file_copy.txt (also applicable to directories)|
 |`mkdir new_dir`|create new directory in current directory|
 |`rm file.txt`|remove file.txt|
 |`rmdir directory`|remove directory (has to be empty)|
@@ -41,12 +56,15 @@ scp net_id@ap200#.chtc.wisc.edu:/path/to/file
 
 
 # Helpful VIM
-VIM is a common text editor used to edit files within command line. [Here](https://vim-adventures.com/) is a fun game to practice VIM commands
+VIM is a common text editor used to edit files within command line. [Here](https://vim-adventures.com/) is a fun game to practice VIM commands.
 |Command|Function|
 |---|---|
-|`vi file`||
-
-
+|`vi file.txt`|open up file.txt in the editor|
+|`i`|'insert' to be able to start editing the file|
+|`dd`|delete the current line|
+|`esc`+`:q`|exit editor after making **NO** changes|
+|`esc`+`:q!`|exit editor and discard any changes made|
+|`esc`+`:wq`|exit editor and save file after making changes|
 
 
 
