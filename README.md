@@ -40,6 +40,7 @@ scp file.txt net_id@ap200#.chtc.wisc.edu:/path/to/dir_chtc
 scp -r dir_local net_id@ap200#.chtc.wisc.edu:/path/to/dir_chtc
 ```
 
+Other helpful commands to navigate command line
 
 |Command|Function|
 |---|---|
