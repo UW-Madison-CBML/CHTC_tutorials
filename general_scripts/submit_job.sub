@@ -15,8 +15,8 @@ when_to_transfer_output = ON_EXIT
 
 #Requirements = (Target.HasCHTCStaging == true)
 Requirements = (Machine == "machine_name2000.chtc.wisc.edu") #Ask for Jay's gpu name
-request_memory = 35 GB
-request_disk = 70 GB
+request_memory = 15 GB
+request_disk = 20 GB
 request_cpus = 1
 
 batch_name = job_name
