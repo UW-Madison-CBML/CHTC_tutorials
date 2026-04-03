@@ -217,7 +217,7 @@ tail *err
 11. Check the output file as well. You want to see `DONE` at the very last line. This is from our `echo "DONE"` statement we added to `run_script.sh`
 12. After checking to make sure everything ran ok, we can now transfer our `tutorial_1_output.tar.gz` back to our local device to look at
 
-## 6. Move tutorial_1_output.tar.gz from CHTC to local device
+## 5. Move tutorial_1_output.tar.gz from CHTC to local device
 1. Move back to your local terminal window
 2. Navigate to `tutorial_1`
 3. Move tutorial_1_output.tar.gz from CHTC to local
