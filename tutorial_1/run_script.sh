@@ -2,42 +2,31 @@
 
 ##### Additional packages needed not in your docker container yet
 pip install torch==2.10.0
-pip install librosa
-pip install wandb
-
-##### Uncomment this if you have any api keys, this specifies WANDB_KEY
-# if [ -f "api_keys.txt" ]; then
-#     WB_KEY=$(tail -n 1 api_keys.txt)
-#     export WANDB_KEY=$WB_KEY
-#     echo "HuggingFace token loaded from api_keys.txt"
-# fi
+pip install tifffile
+pip install torchvision
+pip install torch-topological
+pip install pillow
 
 
 ##### Add any needed 
-# echo "unzip"
-# tar -zxf google_birds.tar.gz
-# echo "move to one directory"
-# cd google_birds 
-# mv */*wav .
-# cd ../
+echo "unzip"
+tar -zxf google_birds.tar.gz
+
+echo "move to one directory"
+
+mkdir tutorial_1_outputs
+mkdir patches
 
 echo "Running"
 
-basename="/staging/svaren/google_lstm/all_birds"
-savename="${basename}.pth"
-pklname="${basename}.pkl"
+img_path='./tutorial_1_inputs/'
+output_dir='./tutorial_1_outputs/'
+n_epochs=50
+save_name='tutorial_1_inputs_model'
 
-wavfiles="./google_birds/"
-
-echo $basename
-echo $savename
-echo $pklname
-echo ""
-echo $wavfiles
-
-python model.py 
+python model.py $img_path $output_dir $n_epochs $save_name
 
 
-tar -zcvf test_birds.tar.gz test_birds
+tar -zcvf tutorial_1_outputs.tar.gz tutorial_1_outputs
 
 echo "DONE"
