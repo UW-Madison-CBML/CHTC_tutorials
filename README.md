@@ -46,6 +46,7 @@ Other helpful commands to navigate command line
 |---|---|
 |`ls`|list files in current directory|
 |`ll`|list files with additional information (time, size, etc)|
+|`pwd`|get absolute path of current directory|
 |`cd /path/to/directory`|navigate to new directory|
 |`mv file.txt /path/to/move/to`|move file.txt to /path/to/move/to|
 |`mv file.txt file_new.txt`|rename file.txt to file_new.txt (also applicable to directories)|
