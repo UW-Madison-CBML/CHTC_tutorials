@@ -1,7 +1,7 @@
 Universe   = container
 container_image = docker://lsvaren/transformers
 Executable = run_script.sh
-transfer_input_files = train_model_tutorial_1.py,tutorial_1_inputs
+transfer_input_files = train_model.py,tutorial_1_inputs.tar.gz
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
