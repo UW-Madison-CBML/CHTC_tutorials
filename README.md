@@ -15,6 +15,7 @@ Here are some basic CHTC commands
 |---|---|
 |`get_quotas` | See your directory quotas after you have logged in|
 |`condor_submit submit.sub` | Submit a job to the queue|
+|`condor_submit -i submit.sub` | Submit an interactive job|
 |`condor_q` | Check on your jobs (idle, running, hold)|
 |`condor_q -hold` | Get explanation to why a job is on hold|
 |`condor_rm <job_id>` | Remove job from queue|
