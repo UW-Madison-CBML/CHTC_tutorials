@@ -1,4 +1,4 @@
-# Tutorial 1
+# Tutorial 1: Train a basic CNN model
 This will be an extensive tutorial to walk you through creating scripts to train a basic model and save the results. We will walk through step by step how to move files from your local computer to the CHTC, submit a job, and move results back to your local computer. In this tutorial you will be instructed on how to write your own executable and submit script. The `run_script.sh` and `submit_job.sub` scripts provided are meant for you to check your work.
 
 In this tutorial, we will train a basic CNN model (`train_model.py`) using second harmonic generation (SHG) images. Since the goal is not to learn model building but to run jobs on CHTC, this tutorial will not cover the specifics of the CNN, nor will the CNN perform well.
