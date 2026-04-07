@@ -68,8 +68,15 @@ cp -r output_files /staging/net_id
 ## 5. Exit the session
 After transferring all your files back to the login node, you can now exit the interactive session by typing `exit`. You may need to do this a couple times to end other processes as well.
 
-
-
+## 6. Check to make sure job is not on hold
+Double check that your job is not on hold in the queue
+```
+condor_q
+```
+If you see your interactive job sitting in the queue still, remove it
+```
+condor_rm <job_id>
+```
 
 
 
