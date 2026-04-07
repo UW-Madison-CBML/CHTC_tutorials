@@ -1,7 +1,6 @@
 Universe   = container
-container_image = docker://lsvaren/transformers
-Executable = run_script.sh
-transfer_input_files = train_model.py,tutorial_1_inputs.tar.gz
+container_image = docker://lsvaren/transformers # Edit if needed
+transfer_input_files = your_files.txt,your_dir
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
@@ -17,7 +16,7 @@ request_disk = 40 GB
 +WantFlock = true
 
 
-batch_name = tutorial_1
+batch_name = interactive
 output = $(Cluster).out
 error = $(Cluster).err
 log = $(Cluster).log
