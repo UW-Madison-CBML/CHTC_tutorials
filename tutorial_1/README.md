@@ -232,6 +232,6 @@ tar -xvzf tutorial_1_output.tar.gz
 
 6. You have now successfully created your own executable (`run_script.sh`), submit script (`submit_job.sub`), trained and saved your own model (`tutorial_1_model.pth`, `tutorial_1_model.pdf`)
 
-## OPTIONAL: Run inference on the full size image using trained model
+## OPTIONAL: See `tutorial_0` for an example of how to use your trained model to inference
 
 
