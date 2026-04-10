@@ -10,6 +10,17 @@ Each folder in this repo contains it's own markdown file describing how to use e
 4. **tutorial_1**: Learn how to train a model `**MOSTLY DONE**`
 5. **tutorial_2**: Learn how to do a multi-job submission `**NOT DONE**`
 
+# Helpful links
+Request a CHTC account [here](https://chtc.cs.wisc.edu/uw-research-computing/form.html)
+
+Request a staging directory **or** a quota change [here](https://chtc.cs.wisc.edu/uw-research-computing/quota-request#how-to-check-your-quotas)
+
+General CHTC guides [here](https://chtc.cs.wisc.edu/uw-research-computing/htc/guides)
+
+[Dockerhub](https://hub.docker.com/)
+
+[HTCondor documentation](https://htcondor.readthedocs.io/en/latest/)
+
 # Basic CHTC commands
 Here are some basic CHTC commands
 |Command|Function|
