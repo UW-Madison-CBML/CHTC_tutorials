@@ -21,6 +21,8 @@ General CHTC guides [here](https://chtc.cs.wisc.edu/uw-research-computing/htc/gu
 
 [HTCondor documentation](https://htcondor.readthedocs.io/en/latest/)
 
+[VIM documentation](https://www.vim.org/docs.php)
+
 # Basic CHTC commands
 Here are some basic CHTC commands
 |Command|Function|
