@@ -19,6 +19,7 @@ os.environ["LOGNAME"] = "researcher"
 from torch.utils.data import Dataset, DataLoader
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
+from torchvision.utils import save_image
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -29,65 +30,20 @@ from PIL import Image
 import tifffile as tiff
 
 
-# Helper functions
-def get_random_patch(img, pad=50, patch_size=512):
-    img_array = np.array(img)
-    h, w = img_array.shape[:2] # 2048, 2048
-    # Maximum possible top-left corner
-    max_x = w - patch_size - pad
-    max_y = h - patch_size - pad
-    # Generate random coordinates
-    x = random.randint(pad, max_x)
-    y = random.randint(pad, max_y)
-    # Crop the patch [y:y+h, x:x+w]
-    patch = img_array[y:y+patch_size, x:x+patch_size]
-    return patch
-
-def rotate_patch(img_arr):
-    rotations = []
-    rotations.append(img_arr) #original
-    tmp = np.rot90(img_arr)
-    rotations.append(tmp) #90
-    tmp = np.rot90(tmp)
-    rotations.append(tmp) #180
-    tmp = np.rot90(tmp)
-    rotations.append(tmp) #270
-    return rotations
-
-def generate_images(img_path, save_path, pad=0, n_patches=10, seed=777):
-    save = os.path.basename(img_path).replace('.tif', '')
-    img = tiff.imread(img_path).astype(np.float32)
-    max_val = 65535 if img.dtype == np.uint16 else 255
-    img /= max_val
-    random.seed(seed)
-    for i in range(n_patches):
-        tmp = get_random_patch(img, pad=pad) #(512,512)
-        rots = rotate_patch(tmp) #(4,512,512)
-        for a, image in enumerate(rots): #[0, 90, 180, 270]
-            # Original
-            save_name = f"{save_path}/{save}_p{i}_{a}.tif"
-            tiff.imwrite(save_name, image)
-            # Transpose h
-            arr_h = np.flip(image, axis=0) #horizontal
-            save_name = f"{save_path}/{save}_p{i}_{a}_h.tif"
-            tiff.imwrite(save_name, arr_h)
-            # Transpose v
-            arr_v = np.flip(image, axis=1) #vertical
-            save_name = f"{save_path}/{save}_p{i}_{a}_v.tif"
-            tiff.imwrite(save_name, arr_v)
-
 # Dataloader
-class LoadImagePatches(Dataset):
-    def __init__(self, 
-                 image_dir):
+class LoadImagesFull(Dataset):
+    def __init__(self, image_dir):
         self.image_dir = image_dir
-        self.filenames = [f for f in os.listdir(image_dir) if f.endswith(('.tif', '.tiff'))] # Filter for .tif or .tiff files
+        self.filenames = [f for f in os.listdir(image_dir) if f.endswith(('.tif', '.tiff'))]
     def __len__(self):
         return len(self.filenames)
-    def __getitem__(self, idx):
-        img_path = os.path.join(self.image_dir, self.filenames[idx])
-        img = tiff.imread(img_path).astype(np.float32)
-        return torch.tensor(img).unsqueeze(0)
+    def __getitem__(self, index):
+        img_path = os.path.join(self.image_dir, self.filenames[index])
+        img = tiff.imread(img_path)
+        img = img.astype(np.float32) / 255.0
+        img = torch.from_numpy(img)
+        img = img.unsqueeze(0)
+        return img
 
 # Model
 class ConvAutoencoder(nn.Module):
@@ -115,72 +71,45 @@ class ConvAutoencoder(nn.Module):
         x = self.decoder(x)
         return x
 
+torch.cuda.empty_cache()
+device = torch.device("cuda")
 
 # Variables
 img_path = sys.argv[1]
-output_dir = sys.argv[2]
-n_epochs = int(sys.argv[3])
-save_name = sys.argv[4]
-
-# Create patches
-img_files = glob.glob(f'{img_path}/*tif')
-
-save_path = './patches/'
-for img_path in img_files:
-    generate_images(img_path, save_path, pad=50, n_patches=10, seed=7) 
-
-# Load patches
-torch.manual_seed(777)
-dataset = LoadImagePatches(image_dir=save_path) 
-loader = DataLoader(dataset, batch_size=64, shuffle=True)
-
+model_path = sys.argv[2]
+output_dir = sys.argv[3]
 
 ################################################################
-# Training
-torch.cuda.empty_cache()
+# Load images
+torch.manual_seed(777)
+dataset = LoadImagesFull(image_dir=img_path) 
+loader = DataLoader(dataset, batch_size=4, shuffle=True) #only 10 images
 
-device = torch.device("cuda")
+# Load model
 torch.manual_seed(777)
 
 model = ConvAutoencoder().to(device)
-criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+checkpoint = torch.load(model_path, map_location=device)
+model_weights = checkpoint["model_state_dict"]
+model.load_state_dict(model_weights)
+model.to(device)
 
-model.train()
-for epoch in range(n_epochs): 
+# Inferencing
+model.eval()
+# Load images
+dataset = LoadImagesFull(image_dir=img_path) #change to dataloader name
+loader = DataLoader(dataset, batch_size=1)
+
+c = 1
+with torch.no_grad(): # Disable gradient calculation
     for i, images in enumerate(loader):
         images = images.to(device)
-        outputs = model(images)
-        loss = criterion(outputs, images)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-    print(f"Epoch {epoch+1}, Loss: {loss.item():.10f}")
-    
+        predictions = model(images)
 
-save_path = f'./{output_dir}/{save_name}.pth'
-torch.save({
-    'epoch': n_epochs,
-    'model_state_dict': model.state_dict(),
-    'optimizer_state_dict': optimizer.state_dict(),
-    'loss': loss
-}, save_path)
+        probs = torch.sigmoid(predictions) # 0.0 to 1.0
+        pred_mask = (probs > 0.52).float() # Prediction mask
 
+        save_image(pred_mask, f"{output_dir}/mask_{i}.png")
 
-################################################################
-# Save a before and after
-with torch.no_grad():
-    # Grab the first image from the last batch
-    original = images[0].cpu().squeeze()
-    recon = outputs[0].cpu().squeeze()
-    
-    plt.figure(figsize=(10, 5))
-    plt.subplot(1, 2, 1)
-    plt.title("Original TIF")
-    plt.imshow(original, cmap='gray')
-    
-    plt.subplot(1, 2, 2)
-    plt.title("Model Reconstruction")
-    plt.imshow(recon, cmap='gray')
-    plt.savefig(f'./{output_dir}/{save_name}.pdf')
+        torch.cuda.empty_cache()
 

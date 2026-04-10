@@ -10,24 +10,20 @@ pip install seaborn
 
 # Unzip input image files
 echo "unzip"
-tar -zxf tutorial_1_inputs.tar.gz
-
-# Make necessary directories
-mkdir tutorial_1_outputs
-mkdir patches
-
-echo "Running"
+tar -zxf tutorial_0_inputs.tar.gz
 
 # Assign variables
-img_path='./tutorial_1_inputs/'
-output_dir='./tutorial_1_outputs/'
-n_epochs=50
-save_name='tutorial_1_inputs_model'
+img_path='./tutorial_0_inputs/'
+model_path='./tutorial_0.pth'
+output_dir='./tutorial_0_outputs/'
+
+mkdir $output_dir
 
 # Run script using variables
-python train_model.py $img_path $output_dir $n_epochs $save_name
+echo "Running"
+python train_model.py $img_path $model_path $output_dir
 
 # tar.gz the output directory
-tar -zcvf tutorial_1_outputs.tar.gz tutorial_1_outputs
+tar -zcvf tutorial_0_outputs.tar.gz tutorial_0_outputs
 
 echo "DONE"
