@@ -21,7 +21,7 @@ mkdir $output_dir
 
 # Run script using variables
 echo "Running"
-python train_model.py $img_path $model_path $output_dir
+python model_inference.py $img_path $model_path $output_dir
 
 # tar.gz the output directory
 tar -zcvf tutorial_0_outputs.tar.gz tutorial_0_outputs
