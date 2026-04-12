@@ -7,7 +7,7 @@ Each folder in this repo contains it's own markdown file describing how to use e
 1. **docker**: How to create and push your own docker container
 2. **general_scripts**: General use scripts covering both single job and multi-job submissions
 3. **tutorial_0**: Learn how to use a trained model (`.pth` not huggingface)
-4. **tutorial_1**: Learn how to train a model `**MOSTLY DONE**`
+4. **tutorial_1**: Learn how to train a model 
 5. **tutorial_2**: Learn how to do a multi-job submission `**NOT DONE**`
 
 # Helpful links
